@@ -1,6 +1,6 @@
 The open source address of our manuscript **FasterSal: Robust and Real-time Single-Stream Architecture for RGB-D Salient Object Detection**.
 
-**All code will be open-sourced after the manuscript is received**.
+**All code will be open-sourced after the manuscript is accepted**.
 
  
 # Result Maps
