@@ -12,7 +12,7 @@ You can access the paper through the following link:
 All code related to **FasterSal** will be open-sourced once the manuscript is accepted and made publicly available. We appreciate your patience and will update this repository with the code in due course.
 
 ## Result Maps
-
+![Performance](performance.png)
 Our predicted maps on the RGBD SOD datasets can be found at the following [Google Drive Link](https://drive.google.com/file/d/1hsRvbdfTd0vl8DqJuSAqAoztN1TOr-Yt/view?usp=drive_link).
 
 ## Datasets
