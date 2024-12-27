@@ -71,8 +71,8 @@ class Network(nn.Layer):
         for p in self.backbone.parameters():
             p.optimize_attr['learning_rate'] /= 1000.0
 
-    def forward(self, rgb, depth):
-        fused = paddle.concat([rgb, depth[:, 0:1, :, :]], 1)
+    def forward(self, rgb):
+        fused = paddle.concat([rgb, rgb[:, 0:1, :, :]], 1)
         size = fused.shape[2:]
         feat1, feat2, feat3, feat4 = self.backbone(fused)
         feat1, feat2, feat3, feat4 = self.squeeze(feat1, feat2, feat3, feat4)
@@ -133,10 +133,10 @@ class ConvBNReLU(nn.Layer):
 class modal_fusion(nn.Layer):
     def __init__(self, channels):
         super(modal_fusion, self).__init__()
-        self.mf1 = ModalFusion(channels[0], 'low', H=96, W=96)
-        self.mf2 = ModalFusion(channels[1], 'low', H=48, W=48)
-        self.mf3 = ModalFusion(channels[2], 'high', H=24, W=24)
-        self.mf4 = ModalFusion(channels[3], 'high', H=12, W=12)
+        self.mf1 = ModalFusion(channels[0], 'low', H=64, W=64)
+        self.mf2 = ModalFusion(channels[1], 'low', H=32, W=32)
+        self.mf3 = ModalFusion(channels[2], 'high', H=16, W=16)
+        self.mf4 = ModalFusion(channels[3], 'high', H=8, W=8)
 
     def forward(self, feat1, feat2, feat3, feat4):
         feat1 = self.mf1(feat1)
@@ -300,7 +300,7 @@ class RFM(nn.Layer):
         self.cv2 = ConvBNReLU(channels2, channels1, 3, 1, 1)
         self.cv3 = ConvBNReLU(channels3, 1, 3, 1, 1, if_relu=False)
         self.aff = AFF(channels1 * 2)
-        self.mhsa = MHSA(channels1, 12, 12)
+        self.mhsa = MHSA(channels1, 8, 8)
         self.cv4 = ConvBNReLU(channels1 * 2, channels1, 3, 1, 1)
         self.cv5 = ConvBNReLU(channels1, channels1, 3, 1, 1)
 
@@ -337,8 +337,3 @@ class Decoder(nn.Layer):
 
     def init_weight(self):
         weight_init(self)
-
-
-if __name__ == '__main__':
-    net = Network()
-    net.load_dict(paddle.load("F:\worksinphd\Lightweight RGBD SOD\results\loss ablation wiou and iou\1wiou 1iou(best)\weight\model-400.pdparams"))
