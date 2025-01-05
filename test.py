@@ -13,7 +13,7 @@ from lib.dataset import test_dataset
 def config():
     parser = argparse.ArgumentParser(description='train params')
     parser.add_argument('--dataset_path', default="work/RGB-DSOD/", help='weigted', type=str)
-    parser.add_argument("--test_size", default=224, type=int)
+    parser.add_argument("--test_size", default=256, type=int)
     parser.add_argument('--weight', default="weight/TRSENet_RGBD/model-200.pdparams", help='weigted', type=str)
     parser.add_argument('--save_path', default='maps/TRSENet_RGBD/', type=str)
     cag = parser.parse_args()
